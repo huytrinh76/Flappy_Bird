@@ -1,23 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class RepeatEnvironment : MonoBehaviour
+namespace Murdock.Core
 {
-    private Vector3 startPos;
-
-    private float repeatWidth;
-    
-    // Start is called before the first frame update
-    void Start()
+    public class RepeatEnvironment : MonoBehaviour
     {
-        startPos = transform.position;
-        repeatWidth = GetComponent<SpriteRenderer>().size.x / 2;
-    }
+        private Vector3 _startPos;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private float _repeatWidth;
+
+        // Start is called before the first frame update
+        void Start()
+        {
+            _startPos = transform.position;
+            _repeatWidth = GetComponent<SpriteRenderer>().size.x / 2;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (transform.position.x < _startPos.x - _repeatWidth)
+            {
+                transform.position = _startPos;
+            }
+        }
     }
 }

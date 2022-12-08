@@ -1,46 +1,61 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Murdock.Audio;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+namespace Murdock.Core
 {
-    private Rigidbody2D _rigidbody;
-    public float liftingForce = 5f;
-    public bool isDead;
-
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerController : MonoBehaviour
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-    }
+        public static PlayerController Instance;
+        private Rigidbody2D _rigidbody;
+        public float liftingForce = 5f;
+        public bool isDead;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        private void Awake()
         {
-            if (_rigidbody.isKinematic)
+            if (Instance == null)
             {
-                _rigidbody.bodyType = RigidbodyType2D.Dynamic;
+                Instance = this;
             }
-
-            Debug.Log("Jumping");
-            Jump();
         }
-    }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.collider.CompareTag("Obstacle"))
+        // Start is called before the first frame update
+        void Start()
         {
-            isDead = true;
-            Debug.Log("Game over!");
+            _rigidbody = GetComponent<Rigidbody2D>();
         }
-    }
 
-    void Jump()
-    {
-        _rigidbody.AddForce(Vector2.up * liftingForce, ForceMode2D.Impulse);
+        // Update is called once per frame
+        void Update()
+        {
+            if (!isDead)
+            {
+                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+                {
+                    if (_rigidbody.isKinematic)
+                    {
+                        _rigidbody.bodyType = RigidbodyType2D.Dynamic;
+                    }
+
+                    Jump();
+                }
+            }
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.collider.CompareTag("Obstacle"))
+            {
+                isDead = true;
+                AudioManager.Instance.PlayHitSfx();
+                Debug.Log("Game over!");
+            }
+        }
+
+        void Jump()
+        {
+            AudioManager.Instance.PlayJumpingSfx();
+            _rigidbody.AddForce(Vector2.up * liftingForce, ForceMode2D.Impulse);
+        }
     }
 }
