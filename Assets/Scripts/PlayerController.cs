@@ -1,4 +1,3 @@
-using System;
 using Murdock.Audio;
 using UnityEngine;
 
@@ -47,6 +46,7 @@ namespace Murdock.Core
             if (other.collider.CompareTag("Obstacle"))
             {
                 isDead = true;
+                CancelInvoke();
                 AudioManager.Instance.PlayHitSfx();
                 Debug.Log("Game over!");
             }

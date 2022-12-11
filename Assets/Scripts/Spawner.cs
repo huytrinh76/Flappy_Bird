@@ -1,43 +1,29 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Spawner : MonoBehaviour
+namespace Murdock.Core
 {
-    public static Spawner Instance;
-    [SerializeField] private List<GameObject> pooledObjects;
-    private int _amountToPool = 10;
-
-    [SerializeField] private GameObject pipesPrefab;
-    private float _repeatRate = 1f;
-    private float _minHeight = -1f;
-    private float _maxHeight = 1f;
-
-    private void Awake()
+    public class Spawner : MonoBehaviour
     {
-        if (Instance == null)
+        private float _repeatRate = 1f;
+        private float _minHeight = -1f;
+        private float _maxHeight = 1f;
+
+        private void OnEnable()
         {
-            Instance = this;
+            InvokeRepeating(nameof(SpawnObject), _repeatRate, _repeatRate);
         }
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        pooledObjects = new List<GameObject>();
-        for (int i = 0; i < _amountToPool; i++)
+        private void OnDisable()
         {
-            GameObject obj = SpawnPipes();
-            obj.SetActive(false);
-            pooledObjects.Add(obj);
+            CancelInvoke(nameof(SpawnObject));
         }
-    }
 
-    GameObject SpawnPipes()
-    {
-        GameObject obj = Instantiate(pipesPrefab, transform);
-        obj.transform.position += Vector3.up * Random.Range(_minHeight, _maxHeight);
-        return obj;
+        private void SpawnObject()
+        {
+            GameObject obj = ObjectPool.Instance.GetPooledObject();
+            obj.transform.position += Vector3.up * Random.Range(_minHeight, _maxHeight);
+        }
     }
 }
