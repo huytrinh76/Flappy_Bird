@@ -9,7 +9,7 @@ namespace Murdock.Core
         private float _repeatRate = 1f;
         private float _minHeight = -1f;
         private float _maxHeight = 1f;
-
+        
         private void OnEnable()
         {
             InvokeRepeating(nameof(SpawnObject), _repeatRate, _repeatRate);

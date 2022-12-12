@@ -8,7 +8,7 @@ namespace Murdock.Core
         public static ObjectPool Instance;
         [SerializeField] private List<GameObject> pooledObjects;
         [SerializeField] private GameObject pipesPrefab;
-        private int _amountToPool = 10;
+        public int amountToPool = 5;
 
         void Awake()
         {
@@ -22,7 +22,7 @@ namespace Murdock.Core
         void Start()
         {
             pooledObjects = new List<GameObject>();
-            for (int i = 0; i < _amountToPool; i++)
+            for (int i = 0; i < amountToPool; i++)
             {
                 GameObject obj = SpawnObject();
                 obj.SetActive(false);
@@ -37,6 +37,7 @@ namespace Murdock.Core
                 if (!t.activeInHierarchy)
                 {
                     t.SetActive(true);
+                    t.transform.position = transform.position;
                     return t;
                 }
             }

@@ -41,7 +41,7 @@ namespace Murdock.Audio
             _audioSource.PlayOneShot(deathSfx);
         }
         
-        public void PlayPointSfx()
+        public void PlayScoreSfx()
         {
             _audioSource.PlayOneShot(pointSfx);
         }

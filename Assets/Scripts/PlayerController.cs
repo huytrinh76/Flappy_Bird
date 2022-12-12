@@ -46,7 +46,6 @@ namespace Murdock.Core
             if (other.collider.CompareTag("Obstacle"))
             {
                 isDead = true;
-                CancelInvoke();
                 AudioManager.Instance.PlayHitSfx();
                 Debug.Log("Game over!");
             }
