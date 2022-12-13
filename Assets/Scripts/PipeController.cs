@@ -1,3 +1,4 @@
+using Murdock.GM;
 using UnityEngine;
 
 namespace Murdock.Core
@@ -16,13 +17,13 @@ namespace Murdock.Core
         // Update is called once per frame
         void Update()
         {
-            if (PlayerController.Instance.isDead) return;
+            if (GameManager.Instance.isDead) return;
             if (transform.position.x < _boundary)
             {
                 gameObject.SetActive(false);
             }
 
-            transform.Translate(Vector3.left * speed * Time.deltaTime);
+            transform.Translate(Vector3.left * (speed * Time.deltaTime));
         }
     }
 }

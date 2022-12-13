@@ -1,4 +1,4 @@
-using System;
+using Murdock.GM;
 using UnityEngine;
 
 namespace Murdock.Core
@@ -16,17 +16,16 @@ namespace Murdock.Core
         // Update is called once per frame
         void Update()
         {
-            if (!PlayerController.Instance.isDead)
-            {
-                Vector2 offset = _meshRenderer.material.mainTextureOffset;
-                if (offset.x > 1)
-                {
-                    offset.x = 0;
-                }
+            if (GameManager.Instance.isDead) return;
 
-                offset += Vector2.right * speed * Time.deltaTime;
-                _meshRenderer.material.mainTextureOffset = offset;
+            Vector2 offset = _meshRenderer.material.mainTextureOffset;
+            if (offset.x > 1)
+            {
+                offset.x = 0;
             }
+
+            offset += Vector2.right * (speed * Time.deltaTime);
+            _meshRenderer.material.mainTextureOffset = offset;
         }
     }
 }

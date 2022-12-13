@@ -10,12 +10,12 @@ namespace Murdock.Core
         private float _minHeight = -1f;
         private float _maxHeight = 1f;
         
-        private void OnEnable()
+        public void StartSpawnPipes()
         {
             InvokeRepeating(nameof(SpawnObject), _repeatRate, _repeatRate);
         }
 
-        private void OnDisable()
+        public void CancelSpawnPipes()
         {
             CancelInvoke(nameof(SpawnObject));
         }
