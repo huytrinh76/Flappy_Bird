@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
+using DG.Tweening;
 using Murdock.Core;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace Murdock.GM
 {
@@ -16,9 +16,10 @@ namespace Murdock.GM
 
         [Header("User Interface")] [SerializeField]
         private GameObject startInstruction;
+
         [SerializeField] private GameObject gameOver;
-        [SerializeField] private Image scoreImg;
-        [SerializeField] private List<Sprite> scoreImgList;
+        [SerializeField] private Text scoreText;
+        [SerializeField] private Button restartButton;
 
         private void Awake()
         {
@@ -28,11 +29,16 @@ namespace Murdock.GM
             }
         }
 
+        private void Start()
+        {
+            restartButton.onClick.AddListener(ResetGame);
+        }
+
         public void StartGame()
         {
             spawner.StartSpawnPipes();
             startInstruction.SetActive(false);
-            scoreImg.gameObject.SetActive(true);
+            scoreText.gameObject.SetActive(true);
         }
 
         public void GameOver()
@@ -41,20 +47,23 @@ namespace Murdock.GM
             isDead = true;
             spawner.CancelSpawnPipes();
             gameOver.SetActive(true);
+            gameOver.transform.localScale = Vector3.zero;
+            gameOver.transform.DOScale(Vector3.one, 1f);
+            restartButton.gameObject.SetActive(true);
+            Image restartImg = restartButton.GetComponent<Image>();
+            restartImg.fillAmount = 0;
+            restartImg.DOFillAmount(1, 0.5f);
         }
 
         public void IncreaseScore()
         {
             score++;
+            scoreText.text = "" + score;
         }
 
-        public void ResetGame()
+        private void ResetGame()
         {
-            score = 0;
-            isDead = false;
-            playerController.ResetPosition();
-            startInstruction.SetActive(true);
-            scoreImg.gameObject.SetActive(false);
+            SceneManager.LoadScene(0);
         }
     }
 }
