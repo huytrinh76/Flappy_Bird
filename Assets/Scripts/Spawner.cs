@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,8 +6,8 @@ namespace Murdock.Core
     public class Spawner : MonoBehaviour
     {
         private float _repeatRate = 1f;
-        private float _minHeight = -1f;
-        private float _maxHeight = 1f;
+        public float minHeight = -1f;
+        public float maxHeight = 1f;
         
         public void StartSpawnPipes()
         {
@@ -23,7 +22,7 @@ namespace Murdock.Core
         private void SpawnObject()
         {
             GameObject obj = ObjectPool.Instance.GetPooledObject();
-            obj.transform.position += Vector3.up * Random.Range(_minHeight, _maxHeight);
+            obj.transform.position += Vector3.up * Random.Range(minHeight, maxHeight);
         }
     }
 }

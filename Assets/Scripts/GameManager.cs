@@ -9,7 +9,6 @@ namespace Murdock.GM
     public class GameManager : MonoBehaviour
     {
         public static GameManager Instance;
-        [SerializeField] private PlayerController playerController;
         [SerializeField] private Spawner spawner;
         public bool isDead;
         public int score;
